@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TS Street Store - CRUD</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -16,44 +16,44 @@
       padding: 2rem 1rem;
       text-align: center;
     }
-    .logo img {
-      width: 120px;
-      border-radius: 50%;
-    }
-    nav a {
-      margin: 0 10px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .crud-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-    }
-    .crud-gallery img {
-      max-width: 100%;
-      height: auto;
+    .crud-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
       border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-    footer {
-      background-color: #212529;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
+    .crud-list {
+      list-style: none;
+      padding: 0;
+    }
+    .crud-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .button-group button {
+      margin-left: 5px;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo mb-3">
-    <img src="imagenes/imagen logo 1 (2).jpeg" alt="TS Logo" />
-  </div>
   <p class="fs-5">TS Street Store Marketing — Venta online al por mayor y al detal</p>
 </header>
+
+<main class="container text-center">
+  <h1 class="mb-4">🧠 CRUD - Gestión de Productos</h1>
+  <div class="crud-container">
+    <input type="text" id="itemInput" placeholder="Escribe el producto" class="form-control mb-2">
+    <button onclick="addItem()" class="btn btn-success">Crear</button>
+    <ul id="crudList" class="crud-list mt-3"></ul>
+  </div>
+</main>
 
 <nav class="nav justify-content-center bg-light py-2 mb-4">
   <a class="nav-link text-primary" href="Inicio.html">Inicio</a>
@@ -64,24 +64,54 @@
   <a class="nav-link text-primary" href="Gorras.java">Gorras</a>
 </nav>
 
-<main class="container text-center">
-  <h1 class="mb-4">🧠 CRUD - Bases de Datos</h1>
-  <div class="crud-gallery">
-    <img src="imagenes/sql1.png" alt="SQL1" class="img-fluid" />
-    <img src="imagenes/sql2.png" alt="SQL2" class="img-fluid" />
-    <img src="imagenes/sql 3.png" alt="SQL3" class="img-fluid" />
-    <img src="imagenes/sql 4.png" alt="SQL4" class="img-fluid" />
-    <img src="imagenes/sql 5.png" alt="SQL5" class="img-fluid" />
-  </div>
-</main>
-
-<footer class="mt-5">
+<footer class="mt-5 text-center">
   <p>👤 Yardani Alexander | ✉️ yapiedrahita0@gmail.com</p>
   <p>👤 Samuel Correea | ✉️ tsstreet.store@gmail.com</p>
   <p>👤 Juan Ruiz | ✉️ jruizes@cesde.net</p>
   <p>👤 Mateo Mazo | ✉️ teocano337@gmail.com</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  let items = [];
+
+  function addItem() {
+    const input = document.getElementById("itemInput");
+    const item = input.value.trim();
+    if (item) {
+      items.push(item);
+      input.value = '';
+      renderList();
+    }
+  }
+
+  function updateItem(index) {
+    const newItem = prompt("Actualizar producto:", items[index]);
+    if (newItem) {
+      items[index] = newItem;
+      renderList();
+    }
+  }
+
+  function deleteItem(index) {
+    items.splice(index, 1);
+    renderList();
+  }
+
+  function renderList() {
+    const list = document.getElementById("crudList");
+    list.innerHTML = "";
+    items.forEach((item, index) => {
+      list.innerHTML += `
+        <li class="crud-item">
+          ${item}
+          <div class="button-group">
+            <button onclick="updateItem(${index})" class="btn btn-warning btn-sm">Actualizar</button>
+            <button onclick="deleteItem(${index})" class="btn btn-danger btn-sm">Eliminar</button>
+          </div>
+        </li>`;
+    });
+  }
+</script>
+
 </body>
 </html>
